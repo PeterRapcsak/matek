@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.querySelector('.main-content');
     
-    // Set test title
+
+    //! XXXXXXXXXXXXXXXXXXXXXXXXX  TIME SHIT  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+
     if (year && test) {
         testTitle.textContent = `${year}/${test}`;
     }
@@ -38,7 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
         totalTimerDisplay.textContent = `Total Time: ${formatTime(hours, minutes, seconds)}`;
     }
 
-    // Scroll hide/show navbar
+    //! XXXXXXXXXXXXXXXXXXXXXXXXX  görgike / sidebar  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+
     let lastScroll = 0;
     window.addEventListener('scroll', function () {
         const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
@@ -56,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function () {
         lastScroll = currentScroll;
     });
 
-    // Sidebar toggle functionality
     if (hamburgerMenu && sidebar) {
         hamburgerMenu.addEventListener('click', function () {
             console.log("Hamburger menu clicked!");
@@ -64,12 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Close sidebar when clicking outside
     document.addEventListener('click', function (event) {
         if (!sidebar.contains(event.target) && !hamburgerMenu.contains(event.target)) {
             sidebar.classList.remove('active');
         }
     });
+
+    //! XXXXXXXXXXXXXXXXXXXXXXXXX  kerdesek  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+
 
     loadAllQuestions();
 
@@ -158,7 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleSolution(questionNumber);
         });
 
-        // Timer logic
+        //! XXXXXXXXXXXXXXXXXXXXXXXXX  Timer logic  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+
         questionTimers[questionNumber] = { seconds: 0, minutes: 0, hours: 0 };
 
         startStopBtn.addEventListener('click', function () {
@@ -213,7 +218,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Grid view toggle
+    //! XXXXXXXXXXXXXXXXXXXXXXXXX  Grid view  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+
     const toggleBtn = document.getElementById("toggleViewBtn");
     const questionContainer = document.getElementById("allQuestionsContainer");
 

@@ -1,3 +1,5 @@
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Basic  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
 :root {
     --primary-color: #4361ee;
     --secondary-color: #3f37c9;
@@ -45,6 +47,8 @@ body {
     gap: 0.5rem;
 }
 
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Main content page  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
 .main-content {
     padding: 20px;
 }
@@ -85,6 +89,8 @@ body {
     color: var(--primary-color);
 }
 
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Gombok  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
 .test-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -112,6 +118,8 @@ body {
 .test-btn:hover {
     background-color: var(--secondary-color);
 }
+
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Pici view  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 
 @media (max-width: 768px) {
     .navbar {

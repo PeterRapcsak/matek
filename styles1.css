@@ -1,3 +1,5 @@
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Basic  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
 :root {
     --primary-color: #4361ee;
     --secondary-color: #3f37c9;
@@ -15,6 +17,8 @@ body {
     background-color: #f5f7fa;
     color: var(--dark-color);
 }
+
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Navbar / Burgerxd  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 
 .navbar {
     position: fixed;
@@ -73,6 +77,9 @@ body {
     color: #6c5ce7;
 }
 
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Side Panel  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+
 .side-panel {
     position: fixed;
     top: 70px;
@@ -107,6 +114,8 @@ body {
     color: #6c5ce7;
 }
 
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Main content page  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
 .main-content {
     margin-left: 220px;
     margin-top: 70px;
@@ -115,6 +124,17 @@ body {
     max-width: calc(100% - 220px);
     box-sizing: border-box;
 }
+
+.grid-view {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .view-toggle-btn {
     background-color: var(--primary-color);
     color: white;
@@ -170,6 +190,15 @@ body {
     margin: 0;
 }
 
+.question-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Timer  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
 .timer-container {
     display: flex;
     align-items: center;
@@ -209,12 +238,7 @@ body {
     background-color: rgba(247, 37, 133, 0.1);
 }
 
-.question-image {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Megoldas Solution  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 
 .solution-btn {
     padding: 0.5rem 1.25rem;
@@ -250,15 +274,7 @@ body {
     margin: 1rem 0;
 }
 
-.grid-view {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-}
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  TELO VIEW  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 
 @media (max-width: 900px) {
     .hamburger-menu {
@@ -293,6 +309,9 @@ body {
         margin-right: 20px;
     }
 }
+
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Megkisebbxdd  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
 
 @media (max-width: 768px) {
     .all-questions-container {
