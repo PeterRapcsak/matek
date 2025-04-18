@@ -32,38 +32,55 @@
         window.location.pathname.endsWith('/matek/') ||
         window.location.pathname === '/matek';
 
-    if (isIndexPage) {
-        // Generate or get visitor ID with proper format
-        let visitorId = localStorage.getItem('visitorId');
-        if (!visitorId || !visitorId.startsWith('visitor-')) {
-            visitorId = 'visitor-' + Math.random().toString(36).substring(2, 11);
-            localStorage.setItem('visitorId', visitorId);
-        }
+if (isIndexPage) {
+    // Try to use existing ID first
+    let visitorId = localStorage.getItem('visitorId');
+    
+    if (!visitorId) {
+        // Only fetch new ID if none exists
+        fetch('https://rapcsak.com/matek/counter.php?action=get_token')
+            .then(response => response.json())
+            .then(tokenData => {
+                visitorId = tokenData.visitorId;
+                localStorage.setItem('visitorId', visitorId);
+                return fetchCount(visitorId, tokenData.hash);
+            })
+            .catch(fallbackCounter);
+    } else {
+        // Existing user - just get current count
+        fetchCount(visitorId);
+    }
+}
 
-        // Generate security hash (this should match your PHP secret key)
-        const secretKey = 'YOUR_SECRET_KEY_HERE'; // Must match PHP key
-        const hash = CryptoJS.HmacSHA256(visitorId, secretKey).toString();
-        
-        // Use absolute path with hash verification
-        const counterUrl = `/matek/counter.php?action=count&id=${encodeURIComponent(visitorId)}&hash=${hash}`;
-        
-        fetch(counterUrl)
-            .then(response => {
-                if (!response.ok) throw new Error('Network error');
-                return response.text();
-            })
-            .then(count => {
-                document.getElementById('counterValue').textContent = count + " Total views";
-            })
-            .catch(error => {
-                console.error('Counter error:', error);
-                // Fallback to localStorage
-                let localCount = localStorage.getItem('localCount') || '1';
-                document.getElementById('counterValue').textContent = localCount;
-                localStorage.setItem('localCount', parseInt(localCount) + 1);
+function fetchCount(visitorId, hash = null) {
+    if (!hash) {
+        // For returning visitors, just get count without changing it
+        return fetch(`https://rapcsak.com/matek/counter.php?action=get_count`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('counterValue').innerHTML = 
+                    `Total visitors: <strong>${data.count}</strong>`;
             });
     }
+    
+    // New visitor flow
+    return fetch(`https://rapcsak.com/matek/counter.php?action=count&id=${visitorId}&hash=${hash}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('counterValue').innerHTML = 
+                `Total visitors: <strong>${data.count}</strong>`;
+        });
+}
 
+function fallbackCounter() {
+    let localCount = parseInt(localStorage.getItem('localCount')) || 1;
+    document.getElementById('counterValue').innerHTML = 
+        `Total visitors: <strong>${localCount}</strong>`;
+    // DON'T increment on reloads - only set if missing
+    if (!localStorage.getItem('localCount')) {
+        localStorage.setItem('localCount', localCount + 1);
+    }
+}
 
             const yearContainer = document.getElementById('yearContainer');
             for (let year = 2005; year <= 2024; year++) {
