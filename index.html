@@ -6,12 +6,16 @@
     <title>Test Navigator</title>
     <link rel="stylesheet" href="styles2.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <a href="#" class="logo">
             <i class="fas fa-book-open"></i> Test Navigator
         </a>
+        <div class="visitor-counter" id="visitorCounter">
+            <i class="fas fa-users"></i> <span id="counterValue">Loading...</span>
+        </div>
     </nav>
 
     <main class="main-content">
@@ -19,40 +23,79 @@
         </section>
     </main>
 
+    <!-- COUNTER-->
+
     <script>
-        const yearContainer = document.getElementById('yearContainer');
+        document.addEventListener('DOMContentLoaded', function() {
+    const isIndexPage = 
+        window.location.pathname.endsWith('/matek/index.html') ||
+        window.location.pathname.endsWith('/matek/') ||
+        window.location.pathname === '/matek';
 
-        for (let year = 2005; year <= 2024; year++) {
-            const yearCard = document.createElement('div');
-            yearCard.className = 'question-container year-card';
-
-            yearCard.innerHTML = `
-                <div class="question-header">
-                    <h2 class="question-title">${year}</h2>
-                </div>
-                <div class="test-buttons">
-                    <button class="test-btn" data-year="${year}" data-test="1">
-                        <i class="fas fa-file-alt"></i> Test 1
-                    </button>
-                    <button class="test-btn" data-year="${year}" data-test="2">
-                        <i class="fas fa-file-alt"></i> Test 2
-                    </button>
-                    <button class="test-btn" data-year="${year}" data-test="3">
-                        <i class="fas fa-file-alt"></i> Test 3
-                    </button>
-                </div>
-            `;
-
-            yearContainer.appendChild(yearCard);
+    if (isIndexPage) {
+        // Generate or get visitor ID with proper format
+        let visitorId = localStorage.getItem('visitorId');
+        if (!visitorId || !visitorId.startsWith('visitor-')) {
+            visitorId = 'visitor-' + Math.random().toString(36).substring(2, 11);
+            localStorage.setItem('visitorId', visitorId);
         }
 
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.test-btn')) {
-                const btn = e.target.closest('.test-btn');
-                const year = btn.getAttribute('data-year');
-                const test = btn.getAttribute('data-test');
-                window.location.href = `exam.html?year=${year}&test=${test}`;
+        // Generate security hash (this should match your PHP secret key)
+        const secretKey = 'YOUR_SECRET_KEY_HERE'; // Must match PHP key
+        const hash = CryptoJS.HmacSHA256(visitorId, secretKey).toString();
+        
+        // Use absolute path with hash verification
+        const counterUrl = `/matek/counter.php?action=count&id=${encodeURIComponent(visitorId)}&hash=${hash}`;
+        
+        fetch(counterUrl)
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.text();
+            })
+            .then(count => {
+                document.getElementById('counterValue').textContent = count + " Total views";
+            })
+            .catch(error => {
+                console.error('Counter error:', error);
+                // Fallback to localStorage
+                let localCount = localStorage.getItem('localCount') || '1';
+                document.getElementById('counterValue').textContent = localCount;
+                localStorage.setItem('localCount', parseInt(localCount) + 1);
+            });
+    }
+
+
+            const yearContainer = document.getElementById('yearContainer');
+            for (let year = 2005; year <= 2024; year++) {
+                const yearCard = document.createElement('div');
+                yearCard.className = 'question-container year-card';
+                yearCard.innerHTML = `
+                    <div class="question-header">
+                        <h2 class="question-title">${year}</h2>
+                    </div>
+                    <div class="test-buttons">
+                        <button class="test-btn" data-year="${year}" data-test="1">
+                            <i class="fas fa-file-alt"></i> Test 1
+                        </button>
+                        <button class="test-btn" data-year="${year}" data-test="2">
+                            <i class="fas fa-file-alt"></i> Test 2
+                        </button>
+                        <button class="test-btn" data-year="${year}" data-test="3">
+                            <i class="fas fa-file-alt"></i> Test 3
+                        </button>
+                    </div>
+                `;
+                yearContainer.appendChild(yearCard);
             }
+
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.test-btn')) {
+                    const btn = e.target.closest('.test-btn');
+                    const year = btn.getAttribute('data-year');
+                    const test = btn.getAttribute('data-test');
+                    window.location.href = `exam.html?year=${year}&test=${test}`;
+                }
+            });
         });
     </script>
 </body>
