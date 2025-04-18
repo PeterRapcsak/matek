@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="navbar-flex">
+            <button id="hamburgerMenu" class="hamburger-menu" style="display: none;">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="test-title" id="testTitle">Test Title</div>
+            <div class="nav-links">
+                <a href="https://www.rapcsak.com" target="_blank">rapcsak.com</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="side-panel" id="sidebar">
+        <button id="sidebarToggle" class="view-toggle-btn">
+            <i class="fas fa-arrow-left"></i> Collapse
+        </button>
+        <button id="toggleViewBtn" class="view-toggle-btn">
+            <i class="fas fa-th-large"></i> Split View
+        </button>
+        <a href="index.html" class="logo">Back to Tests</a>
+        <a href="https://www.example.com" target="_blank">Example</a>
+        <a href="https://www.anothersite.com" target="_blank">Another Site</a>
+    </div>
+
+    <div class="main-content">
+        <div class="all-questions-container" id="allQuestionsContainer">
+            <!-- Questions will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
