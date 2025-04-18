@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Test Navigator</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles2.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body>
     <nav class="navbar">
@@ -14,20 +14,23 @@
         </a>
     </nav>
 
-    <div class="year-container" id="yearContainer">
-        <!-- Years will be added dynamically by JavaScript -->
-    </div>
+    <main class="main-content">
+        <section class="grid-view year-grid" id="yearContainer">
+            <!-- Year cards will be generated here -->
+        </section>
+    </main>
 
     <script>
-        // Generate year cards from 2005 to 2024
         const yearContainer = document.getElementById('yearContainer');
-        
+
         for (let year = 2005; year <= 2024; year++) {
             const yearCard = document.createElement('div');
-            yearCard.className = 'year-card';
-            
+            yearCard.className = 'question-container year-card';
+
             yearCard.innerHTML = `
-                <h2 class="year-title">${year}</h2>
+                <div class="question-header">
+                    <h2 class="question-title">${year}</h2>
+                </div>
                 <div class="test-buttons">
                     <button class="test-btn" data-year="${year}" data-test="1">
                         <i class="fas fa-file-alt"></i> Test 1
@@ -40,17 +43,17 @@
                     </button>
                 </div>
             `;
-            
+
             yearContainer.appendChild(yearCard);
         }
 
-        // Add event listeners to all test buttons
-        document.querySelectorAll('.test-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const year = this.getAttribute('data-year');
-                const test = this.getAttribute('data-test');
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.test-btn')) {
+                const btn = e.target.closest('.test-btn');
+                const year = btn.getAttribute('data-year');
+                const test = btn.getAttribute('data-test');
                 window.location.href = `exam.html?year=${year}&test=${test}`;
-            });
+            }
         });
     </script>
 </body>
