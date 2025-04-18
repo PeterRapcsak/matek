@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles1.css">
 </head>
@@ -23,16 +24,27 @@
         <button id="toggleViewBtn" class="view-toggle-btn">
             <i class="fas fa-th-large"></i> Split View
         </button>
+        <button id="viewSummaryBtn" class="view-toggle-btn">
+            <i class="fas fa-chart-pie"></i> View Summary
+        </button>
         <a href="index.html" class="logo">Back to Tests</a>
-        <a href="https://www.example.com" target="_blank">Example</a>
-        <a href="https://www.anothersite.com" target="_blank">Another Site</a>
     </div>
-
+    
     <div class="main-content">
         <div class="all-questions-container" id="allQuestionsContainer">
         </div>
     </div>
-
+    <div id="summaryOverlay" class="summary-overlay">
+        <div class="summary-popup">
+            <button id="closeSummaryBtn" class="close-summary-btn">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Time Distribution</h2>
+            <div class="chart-container">
+                <canvas id="timeChart"></canvas>
+            </div>
+        </div>
+    </div>
     <script src="scripts.js"></script>
 </body>
 </html>

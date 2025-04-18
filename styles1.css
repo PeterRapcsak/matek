@@ -308,7 +308,71 @@ body {
         width: auto;
         margin-right: 20px;
     }
+
+    .side-panel a.logo,
+    .side-panel #viewSummaryBtn {
+        display: flex !important;
+    }
 }
+
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Summary Popup  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+.summary-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+}
+
+.summary-popup {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.summary-popup h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.chart-container {
+    width: 100%;
+    height: 400px;
+    margin: 1rem 0;
+}
+
+.close-summary-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--dark-color);
+    transition: color 0.2s;
+}
+
+.close-summary-btn:hover {
+    color: var(--danger-color);
+}
+
+
+
+
+
+
 
 /*! XXXXXXXXXXXXXXXXXXXXXXXXX  Megkisebbxdd  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 

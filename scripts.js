@@ -98,6 +98,8 @@ document.addEventListener('DOMContentLoaded', function () {
         title.textContent = `Question ${questionNumber}.`;
         header.appendChild(title);
 
+        
+
         const timerContainer = document.createElement('div');
         timerContainer.className = 'timer-container';
 
@@ -229,4 +231,105 @@ document.addEventListener('DOMContentLoaded', function () {
             ? '<i class="fas fa-list"></i> Single View'
             : '<i class="fas fa-th-large"></i> Split View';
     });
+
+    const viewSummaryBtn = document.getElementById('viewSummaryBtn');
+const summaryOverlay = document.getElementById('summaryOverlay');
+const closeSummaryBtn = document.getElementById('closeSummaryBtn');
+let timeChart = null;
+
+viewSummaryBtn.addEventListener('click', function() {
+    showSummaryPopup();
 });
+
+closeSummaryBtn.addEventListener('click', function() {
+    summaryOverlay.style.display = 'none';
+});
+
+function showSummaryPopup() {
+    summaryOverlay.style.display = 'flex';
+    renderTimeChart();
+}
+
+function renderTimeChart() {
+    const ctx = document.getElementById('timeChart').getContext('2d');
+    
+    // Prepare data for the chart
+    const chartData = prepareChartData();
+    
+    // Destroy previous chart if it exists
+    if (timeChart) {
+        timeChart.destroy();
+    }
+    
+    timeChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                data: chartData.data,
+                backgroundColor: chartData.colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return `${label}: ${formatTimeFromSeconds(value)} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function prepareChartData() {
+    const labels = [];
+    const data = [];
+    const colors = [
+        '#4361ee', '#3f37c9', '#4895ef', '#4cc9f0', '#560bad',
+        '#b5179e', '#f72585', '#7209b7', '#3a0ca3', '#4361ee'
+    ];
+    
+    for (let i = 1; i <= totalQuestions; i++) {
+        const timer = questionTimers[i];
+        const totalSeconds = timer.hours * 3600 + timer.minutes * 60 + timer.seconds;
+        
+        // Only include questions that have time recorded
+        if (totalSeconds > 0) {
+            labels.push(`Question ${i}`);
+            data.push(totalSeconds);
+        }
+    }
+    
+    return {
+        labels: labels,
+        data: data,
+        colors: colors.slice(0, labels.length)
+    };
+}
+
+function formatTimeFromSeconds(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return formatTime(hours, minutes, seconds);
+}
+
+});
+
+
+
+
+
