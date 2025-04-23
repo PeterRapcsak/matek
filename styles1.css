@@ -30,7 +30,7 @@ body {
     grid-template-columns: auto 1fr auto auto;
     align-items: center;
     padding: 15px 25px;
-    background-color: rgba(15, 15, 15, 0.95);
+    background-color: rgba(26, 26, 26, 0.9);
     z-index: 1000;
     backdrop-filter: blur(5px);
     transition: transform 0.3s ease-in-out;
@@ -276,50 +276,6 @@ body {
     margin: 1rem 0;
 }
 
-/*! XXXXXXXXXXXXXXXXXXXXXXXXX  TELO VIEW  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-
-@media (max-width: 900px) {
-    .hamburger-menu {
-        display: block;
-    }
-    
-    .view-toggle-btn {
-        display: none !important;
-    }
-    
-    .side-panel {
-        transform: translateX(-100%);
-        width: 280px;
-        z-index: 1001;
-    }
-    
-    .side-panel.active {
-        transform: translateX(0);
-    }
-    
-    .main-content {
-        margin-left: 0;
-        max-width: 100%;
-    }
-    
-    .grid-view {
-        display: block !important;
-    }
-
-    .question-container {
-        width: auto;
-        margin-right: 20px;
-    }
-
-    .side-panel a.logo,
-    .side-panel #viewSummaryBtn {
-        display: flex !important;
-    }
-}
-
-
-
-
 /*! XXXXXXXXXXXXXXXXXXXXXXXXX  Summary Popup  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 
 .summary-overlay {
@@ -373,10 +329,64 @@ body {
     color: var(--danger-color);
 }
 
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  TELO VIEW  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 
+/* Update the existing @media (max-width: 900px) section */
+@media (max-width: 900px) {
+    .hamburger-menu {
+        display: block;
+    }
+    
+    .view-toggle-btn {
+        display: none !important;
+    }
+    
+    .side-panel {
+        margin-top: 1.5rem;
+        transform: translateX(-100%);
+        width: 280px;
+        z-index: 998; /* Lower than navbar (1000) but higher than content */
+        top: 60px;
+        height: calc(100vh - 60px);
+        background-color: rgba(26, 26, 26, 0.98); /* More opaque for better visibility */
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .side-panel.active {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+        max-width: 100%;
+        margin-top: 60px;
+        padding-top: 20px;
+    }
+    
+    .grid-view {
+        display: block !important;
+    }
 
+    .question-container {
+        width: auto;
+        margin-right: 20px;
+        margin-top: 10px;
+    }
 
-
+    .side-panel a.logo,
+    .side-panel #viewSummaryBtn {
+        display: flex !important;
+    }
+    .navbar {
+        padding: 10px 15px;
+        height: 60px;
+        z-index: 1000; /* Ensure navbar stays on top */
+    }
+    
+    .total-timer {
+        font-size: 0.9rem;
+    }
+}
 
 
 /*! XXXXXXXXXXXXXXXXXXXXXXXXX  Megkisebbxdd  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
@@ -388,12 +398,26 @@ body {
     }
     
     .question-header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row; /* Changed from column to row */
+        align-items: center; /* Changed from flex-start to center */
+        justify-content: space-between; /* Add this to space elements */
+        flex-wrap: wrap; /* Allow wrapping if needed */
     }
     
     .timer-container {
-        margin-top: 0.5rem;
+        margin-top: 0; /* Remove the extra margin */
+    }
+    
+    /* Add this to ensure the title and timer container don't get too squished */
+    .question-title {
+        margin-right: 10px;
+    }
+    .grid-view {
+        grid-template-columns: 1fr !important; /* Force single column on mobile */
+        gap: 1rem;
+    }
+    
+    .question-container {
+        margin-right: 0 !important; /* Remove the right margin */
     }
 }
-
