@@ -1,46 +1,45 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const year = urlParams.get('year');
-    const test = urlParams.get('test');
-    const totalQuestions = 9;
 
-    const container = document.getElementById('allQuestionsContainer');
-    const navbar = document.getElementById('navbar');
-    const testTitle = document.getElementById('testTitle');
-    const totalTimerDisplay = document.getElementById('totalTimer');
-    const hamburgerMenu = document.getElementById('hamburgerMenu');
-    const sidebar = document.getElementById('sidebar');
-    const mainContent = document.querySelector('.main-content');
-    
+const urlParams = new URLSearchParams(window.location.search);
+const year = urlParams.get('year');
+const test = urlParams.get('test');
+const totalQuestions = 9;
+const container = document.getElementById('allQuestionsContainer');
+const navbar = document.getElementById('navbar');
+const testTitle = document.getElementById('testTitle');
+const totalTimerDisplay = document.getElementById('totalTimer');
+const hamburgerMenu = document.getElementById('hamburgerMenu');
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.querySelector('.main-content');
+let activeTimer = null;
 
-    //! XXXXXXXXXXXXXXXXXXXXXXXXX  TIME SHIT  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
 
-    if (year && test) {
-        testTitle.textContent = `${year}/${test}`;
+//! XXXXXXXXXXXXXXXXXXXXXXXXX  TIME SHIT  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+
+if (year && test) {
+    testTitle.textContent = `${year}/${test}`;
+    document.title = `${year} / ${test}`; 
+}
+let questionTimers = {}; // Stores time for each question
+let questionIntervals = {}; // Stores intervals for each question
+
+function formatTime(h, m, s) {
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+function updateTotalTimer() {
+    let totalSeconds = 0;
+    for (let key in questionTimers) {
+        const t = questionTimers[key];
+        totalSeconds += t.hours * 3600 + t.minutes * 60 + t.seconds;
     }
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    totalTimerDisplay.textContent = `Total Time: ${formatTime(hours, minutes, seconds)}`;
+}
 
-    let questionTimers = {}; // Stores time for each question
-    let questionIntervals = {}; // Stores intervals for each question
-
-    function formatTime(h, m, s) {
-        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    }
-
-    function updateTotalTimer() {
-        let totalSeconds = 0;
-        for (let key in questionTimers) {
-            const t = questionTimers[key];
-            totalSeconds += t.hours * 3600 + t.minutes * 60 + t.seconds;
-        }
-
-        const hours = Math.floor(totalSeconds / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
-
-        totalTimerDisplay.textContent = `Total Time: ${formatTime(hours, minutes, seconds)}`;
-    }
-
-    //! XXXXXXXXXXXXXXXXXXXXXXXXX  görgike / sidebar  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+//! XXXXXXXXXXXXXXXXXXXXXXXXX  görgike / sidebar  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
 
     let lastScroll = 0;
     window.addEventListener('scroll', function () {
@@ -72,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    //! XXXXXXXXXXXXXXXXXXXXXXXXX  kerdesek  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+//! XXXXXXXXXXXXXXXXXXXXXXXXX  kerdesek  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
 
 
     loadAllQuestions();
@@ -164,20 +163,36 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleSolution(questionNumber);
         });
 
-        //! XXXXXXXXXXXXXXXXXXXXXXXXX  Timer logic  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
+//! XXXXXXXXXXXXXXXXXXXXXXXXX  Timer logic  XXXXXXXXXXXXXXXXXXXXXXXXXXX//
 
         questionTimers[questionNumber] = { seconds: 0, minutes: 0, hours: 0 };
 
         startStopBtn.addEventListener('click', function () {
             const isRunning = this.dataset.running === 'true';
-
+            const questionNumber = this.dataset.question;
+        
             if (isRunning) {
+                // If clicking the currently active timer, stop it
                 clearInterval(questionIntervals[questionNumber]);
                 this.dataset.running = 'false';
                 this.innerHTML = '<i class="fas fa-play"></i>';
+                activeTimer = null;
             } else {
+                // If there's an active timer, stop it first
+                if (activeTimer && activeTimer !== questionNumber) {
+                    const prevActiveBtn = document.querySelector(`.timer-btn[data-question="${activeTimer}"][data-running="true"]`);
+                    if (prevActiveBtn) {
+                        clearInterval(questionIntervals[activeTimer]);
+                        prevActiveBtn.dataset.running = 'false';
+                        prevActiveBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    }
+                }
+        
+                // Start the new timer
                 this.dataset.running = 'true';
                 this.innerHTML = '<i class="fas fa-pause"></i>';
+                activeTimer = questionNumber;
+                
                 questionIntervals[questionNumber] = setInterval(() => {
                     let timer = questionTimers[questionNumber];
                     timer.seconds++;
@@ -196,11 +211,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         resetBtn.addEventListener('click', function () {
+            const questionNumber = this.dataset.question;
             clearInterval(questionIntervals[questionNumber]);
             questionTimers[questionNumber] = { seconds: 0, minutes: 0, hours: 0 };
             timerDisplay.textContent = '00:00:00';
             startStopBtn.dataset.running = 'false';
             startStopBtn.innerHTML = '<i class="fas fa-play"></i>';
+            
+            if (activeTimer === questionNumber) {
+                activeTimer = null;
+            }
+            
             updateTotalTimer();
         });
 

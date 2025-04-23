@@ -27,93 +27,95 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-    const isIndexPage = 
+        const isIndexPage = 
         window.location.pathname.endsWith('/matek/index.html') ||
         window.location.pathname.endsWith('/matek/') ||
         window.location.pathname === '/matek';
 
-if (isIndexPage) {
-    // Try to use existing ID first
-    let visitorId = localStorage.getItem('visitorId');
-    
-    if (!visitorId) {
-        // Only fetch new ID if none exists
-        fetch('https://rapcsak.com/matek/counter.php?action=get_token')
-            .then(response => response.json())
-            .then(tokenData => {
-                visitorId = tokenData.visitorId;
-                localStorage.setItem('visitorId', visitorId);
-                return fetchCount(visitorId, tokenData.hash);
-            })
-            .catch(fallbackCounter);
-    } else {
-        // Existing user - just get current count
-        fetchCount(visitorId);
-    }
-}
+        if (isIndexPage) {
+            // Try to use existing ID first
+            let visitorId = localStorage.getItem('visitorId');
 
-function fetchCount(visitorId, hash = null) {
-    if (!hash) {
-        // For returning visitors, just get count without changing it
-        return fetch(`https://rapcsak.com/matek/counter.php?action=get_count`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('counterValue').innerHTML = 
-                    `Total visitors: <strong>${data.count}</strong>`;
-            });
-    }
-    
-    // New visitor flow
-    return fetch(`https://rapcsak.com/matek/counter.php?action=count&id=${visitorId}&hash=${hash}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('counterValue').innerHTML = 
-                `Total visitors: <strong>${data.count}</strong>`;
-        });
-}
+            if (!visitorId) {
+                // Only fetch new ID if none exists
+                fetch('https://rapcsak.com/matek/counter.php?action=get_token')
+                    .then(response => response.json())
+                    .then(tokenData => {
+                        visitorId = tokenData.visitorId;
+                        localStorage.setItem('visitorId', visitorId);
+                        return fetchCount(visitorId, tokenData.hash);
+                    })
+                    .catch(fallbackCounter);
+            } else {
+                // Existing user - just get current count
+                fetchCount(visitorId);
+            }
+        }
 
-function fallbackCounter() {
-    let localCount = parseInt(localStorage.getItem('localCount')) || 1;
-    document.getElementById('counterValue').innerHTML = 
-        `Total visitors: <strong>${localCount}</strong>`;
-    // DON'T increment on reloads - only set if missing
-    if (!localStorage.getItem('localCount')) {
-        localStorage.setItem('localCount', localCount + 1);
-    }
-}
-
-            const yearContainer = document.getElementById('yearContainer');
-            for (let year = 2005; year <= 2024; year++) {
-                const yearCard = document.createElement('div');
-                yearCard.className = 'question-container year-card';
-                yearCard.innerHTML = `
-                    <div class="question-header">
-                        <h2 class="question-title">${year}</h2>
-                    </div>
-                    <div class="test-buttons">
-                        <button class="test-btn" data-year="${year}" data-test="1">
-                            <i class="fas fa-file-alt"></i> Test 1
-                        </button>
-                        <button class="test-btn" data-year="${year}" data-test="2">
-                            <i class="fas fa-file-alt"></i> Test 2
-                        </button>
-                        <button class="test-btn" data-year="${year}" data-test="3">
-                            <i class="fas fa-file-alt"></i> Test 3
-                        </button>
-                    </div>
-                `;
-                yearContainer.appendChild(yearCard);
+        function fetchCount(visitorId, hash = null) {
+            if (!hash) {
+                // For returning visitors, just get count without changing it
+                return fetch(`https://rapcsak.com/matek/counter.php?action=get_count`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('counterValue').innerHTML = 
+                            `Total visitors: <strong>${data.count}</strong>`;
+                    });
             }
 
-            document.addEventListener('click', (e) => {
-                if (e.target.closest('.test-btn')) {
-                    const btn = e.target.closest('.test-btn');
-                    const year = btn.getAttribute('data-year');
-                    const test = btn.getAttribute('data-test');
-                    window.location.href = `exam.html?year=${year}&test=${test}`;
-                }
-            });
+            // New visitor flow
+            return fetch(`https://rapcsak.com/matek/counter.php?action=count&id=${visitorId}&hash=${hash}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('counterValue').innerHTML = 
+                        `Total visitors: <strong>${data.count}</strong>`;
+                });
+        }
+
+        function fallbackCounter() {
+            let localCount = parseInt(localStorage.getItem('localCount')) || 1;
+            document.getElementById('counterValue').innerHTML = 
+                `Total visitors: <strong>${localCount}</strong>`;
+            // DON'T increment on reloads - only set if missing
+            if (!localStorage.getItem('localCount')) {
+                localStorage.setItem('localCount', localCount + 1);
+            }
+        }
+
+        const yearContainer = document.getElementById('yearContainer');
+        for (let year = 2005; year <= 2024; year++) {
+            const yearCard = document.createElement('div');
+            yearCard.className = 'question-container year-card';
+            yearCard.innerHTML = `
+                <div class="question-header">
+                    <h2 class="question-title">${year}</h2>
+                </div>
+                <div class="test-buttons">
+                    <a href="exam.html?year=${year}&test=1" class="test-btn" data-year="${year}" data-test="1">
+                        <i class="fas fa-file-alt"></i> Test 1
+                    </a>
+                    <a href="exam.html?year=${year}&test=2" class="test-btn" data-year="${year}" data-test="2">
+                        <i class="fas fa-file-alt"></i> Test 2
+                    </a>
+                    <a href="exam.html?year=${year}&test=3" class="test-btn" data-year="${year}" data-test="3">
+                        <i class="fas fa-file-alt"></i> Test 3
+                    </a>
+                </div>
+            `;
+            yearContainer.appendChild(yearCard);
+        
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.test-btn')) {
+                const btn = e.target.closest('.test-btn');
+                const year = btn.getAttribute('data-year');
+                const test = btn.getAttribute('data-test');
+                window.location.href = `exam.html?year=${year}&test=${test}`;
+            }
         });
+        document.querySelectorAll('.year-card').forEach((card, index) => {
+        card.style.setProperty('--order', index);
+        });
+    }});
     </script>
 </body>
 </html>

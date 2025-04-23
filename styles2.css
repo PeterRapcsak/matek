@@ -71,7 +71,15 @@ body {
     border: 1px solid #e0e0e0;
     max-width: 100%;
     overflow: hidden;
+    opacity: 0;
+    transform: scale(0.90);
+    animation: cardEntrance 0.2s ease-out forwards;
+    animation-delay: calc(var(--order) * 0.02s);
 }
+
+@keyframes cardEntrance {
+    to { opacity: 1; transform: scale(1); }
+  }
 
 .year-card:hover {
     transform: translateY(-3px);
@@ -139,7 +147,9 @@ body {
 }
 
 
-.test-btn {
+.test-buttons a.test-btn {
+    text-decoration: none;
+    /* All your existing button styles */
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -154,7 +164,8 @@ body {
     white-space: nowrap;
     transition: background-color 0.2s;
 }
-.test-btn:hover {
+
+.test-buttons a.test-btn:hover {
     background-color: var(--secondary-color);
 }
 
