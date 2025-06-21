@@ -1,28 +1,45 @@
-/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Basic  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-
+/* Color Variables */
 :root {
-    --primary-color: #4361ee;
-    --secondary-color: #3f37c9;
-    --accent-color: #4895ef;
-    --light-color: #f8f9fa;
-    --dark-color: #212529;
-    --success-color: #4cc9f0;
-    --danger-color: #f72585;
+    --primary: #6c5ce7;
+    --primary-dark: #5649c0;
+    --secondary: #00cec9;
+    --dark: #0d0d0d;
+    --dark-gray: #1a1a1a;
+    --medium-gray: #333;
+    --light-gray: #bfbfbf;
+    --white: #ffffff;
 }
 
+/* General Reset */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+/* Body Styling & Background */
+html {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    background-attachment: fixed;
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa;
-    color: var(--dark-color);
-    padding-top: 70px;
+    color: var(--white);
+    line-height: 1.6;
+    padding-top: 80px; /* Adjusted for taller navbar */
+    background-color: transparent;
 }
 
+/* Navbar */
 .navbar {
     position: fixed;
     top: 0;
@@ -31,26 +48,28 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 25px;
+    padding: 20px 50px;
     background-color: rgba(26, 26, 26, 0.9);
-    backdrop-filter: blur(6px);
     z-index: 1000;
+    backdrop-filter: blur(10px);
 }
 
 .navbar .logo {
-    color: white;
+    color: var(--white);
     text-decoration: none;
     font-size: 1.3rem;
-    font-weight: bold;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 /*! XXXXXXXXXXXXXXXXXXXXXXXXX  Main content page  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-
 .main-content {
     padding: 20px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+
 }
 
 .year-grid {
@@ -58,19 +77,19 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
     padding: 1rem;
-    max-width: 1200px;
+    max-width: 1550px;
     margin: 0 auto;
 }
 
 .year-card {
-    background-color: white;
-    border-radius: 12px;
+    background-color: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
     padding: 1.5rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid #e0e0e0;
     max-width: 100%;
     overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
     opacity: 0;
     transform: scale(0.90);
     animation: cardEntrance 0.2s ease-out forwards;
@@ -79,11 +98,11 @@ body {
 
 @keyframes cardEntrance {
     to { opacity: 1; transform: scale(1); }
-  }
+}
 
 .year-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 18px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(108, 92, 231, 0.2);
 }
 
 .question-header {
@@ -94,16 +113,15 @@ body {
 .question-title {
     font-size: 1.4rem;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--white);
 }
 
 /*! XXXXXXXXXXXXXXXXXXXXXXXXX  View counter  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-
 .visitor-counter {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    color: white;
+    color: var(--light-gray);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -113,31 +131,7 @@ body {
     border-radius: 20px;
 }
 
-@media (max-width: 768px) {
-    .visitor-counter {
-        position: static;
-        transform: none;
-        margin: 0 auto;
-        width: fit-content;
-        order: 1;
-        margin-top: 10px;
-    }
-    
-    .navbar {
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-    
-    .logo {
-        order: 0;
-    }
-}
-
-
-
-
 /*! XXXXXXXXXXXXXXXXXXXXXXXXX  Gombok  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-
 .test-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -146,36 +140,47 @@ body {
     margin-top: 0.75rem;
 }
 
-
 .test-buttons a.test-btn {
     text-decoration: none;
-    /* All your existing button styles */
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--primary);
+    color: var(--white);
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 6px;
     white-space: nowrap;
-    transition: background-color 0.2s;
+    transition: all 0.3s;
 }
 
 .test-buttons a.test-btn:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
 }
 
-
-
-/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Pici view  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-
+/*! XXXXXXXXXXXXXXXXXXXXXXXXX  Responsive  XXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 @media (max-width: 768px) {
     .navbar {
-        padding: 12px 16px;
+        padding: 15px 20px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .logo {
+        order: 0;
+    }
+
+    .visitor-counter {
+        position: static;
+        transform: none;
+        margin: 10px auto 0;
+        width: fit-content;
+        order: 1;
     }
 
     .year-card {
@@ -187,7 +192,8 @@ body {
         gap: 0.6rem;
     }
 
-    .test-btn {
+    .test-buttons a.test-btn {
         width: 100%;
+        justify-content: center;
     }
 }

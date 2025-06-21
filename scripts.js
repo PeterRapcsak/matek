@@ -349,8 +349,3 @@ function formatTimeFromSeconds(totalSeconds) {
 }
 
 });
-
-
-
-
-
