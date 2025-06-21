@@ -5,8 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Viewer</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles1.css">
+    <style>
+        /* --- START: Style Overrides to match index.html --- */
+
+        /* Color Variable Overrides from styles2.css, mapped to styles1.css names */
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #5649c0;
+            --accent-color: #00cec9;
+            --light-color: #ffffff;
+            --dark-color: #bfbfbf; /* Light gray text for dark backgrounds */
+            --success-color: #00cec9;
+            --danger-color: #f72585;
+        }
+
+        /* Animated Gradient Background from styles2.css */
+        html {
+            background: linear-gradient(60deg, #515185, #192958);
+            background-attachment: fixed;
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background-color: transparent; /* Show the html gradient */
+            color: var(--light-color);
+        }
+
+        /* Navbar Redesign to match index.html */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            grid-template-columns: none; /* Override grid layout from styles1.css */
+        }
+
+        .navbar .test-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+        
+        .navbar .hamburger-menu, .navbar .nav-links a {
+            color: var(--white);
+        }
+        
+        .navbar .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .navbar .total-timer {
+             color: var(--light-gray);
+        }
+
+        /* Dark Theme for Content Elements */
+        .question-container {
+            background-color: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(5px);
+            border: none;
+            outline: none;
+        }
+
+        .timer {
+            color: var(--light-color);
+        }
+
+        .timer-container {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Side Panel Theming */
+        .side-panel {
+            background-color: rgba(26, 26, 26, 0.95);
+        }
+        
+        .side-panel a {
+            color: var(--light-color);
+        }
+        .side-panel a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Summary Popup Theming */
+        .summary-popup {
+            background-color: #1a1a2e;
+            color: var(--light-color);
+        }
+
+        .summary-popup h2 {
+            color: white;
+        }
+
+        .close-summary-btn {
+            color: var(--light-color);
+        }
+
+        .close-summary-btn:hover {
+            color: var(--danger-color);
+        }
+
+        /* Mobile Navbar Adjustments */
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+        }
+        /* --- END: Style Overrides --- */
+    </style>
 </head>
 <body>
     <div class="navbar">

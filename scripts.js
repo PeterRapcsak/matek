@@ -298,6 +298,9 @@ function renderTimeChart() {
             plugins: {
                 legend: {
                     position: 'right',
+                    labels: {
+                        color: 'white' // This line makes the legend text white
+                    }
                 },
                 tooltip: {
                     callbacks: {

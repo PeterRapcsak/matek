@@ -37,6 +37,33 @@ body {
     gap: 20px;
 }
 
+/* Styles for the index.html (home page) navbar specifically */
+body.home-page .navbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    transition: transform 0.3s ease-in-out, padding 0.3s ease-in-out, font-size 0.3s ease-in-out;
+}
+
+body.home-page .navbar > * {
+    flex-shrink: 0; /* Prevent items from shrinking */
+    white-space: nowrap; /* Prevent text inside from wrapping */
+}
+
+body.home-page .navbar .logo {
+    font-size: 1.1rem;
+}
+
+body.home-page .navbar .visitor-counter {
+    font-size: 1rem;
+    text-align: center;
+}
+
+body.home-page .navbar .nav-links a {
+    font-size: 1rem;
+}
+
 .hamburger-menu {
     background: none;
     border: none;
@@ -188,7 +215,7 @@ body {
 .question-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(white);
     margin: 0;
 }
 
@@ -220,7 +247,7 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--primary-color);
+    color: white;
     font-size: 0.9rem;
     padding: 0.25rem;
     border-radius: 50%;
@@ -303,7 +330,7 @@ body {
 
 .summary-popup h2 {
     margin-top: 0;
-    color: var(--primary-color);
+    color: white;
     text-align: center;
 }
 
@@ -421,3 +448,4 @@ body {
         margin-right: 0 !important; /* Remove the right margin */
     }
 }
+
